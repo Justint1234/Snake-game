@@ -1,5 +1,6 @@
 import turtle
 import time 
+import random
 
 delay = 0.1
 
@@ -27,6 +28,8 @@ food.shape("circle")
 food.color("red")
 food.penup()
 food.goto(0,100)
+
+segments = []
 
 
 
@@ -77,6 +80,30 @@ wn.onkeypress(go_right, "d")
 #Main game loop
 while True:
     wn.update()
+
+    if head.distance(food) < 20: 
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        food.goto(x,y)
+
+        #Add a segment for the snake
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("purple")
+        new_segment.penup()
+        segments.append(new_segment)        
+
+
+    for index in range(len(segments) -1, 0, -1):
+            x = segments[index -1].xcor()
+            y = segments[index -1].ycor()
+            segments[index].goto(x,y)
+
+    if len(segments) > 0:
+                x = head.xcor()
+                y = head.ycor()
+                segments[0].goto(x,y)
     
     move()
 
